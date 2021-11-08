@@ -80,6 +80,12 @@ class Partner(TimeStampedModel):
         max_length=255, null=True, blank=True, verbose_name=_('LMS Admin URL'),
         help_text=_('The public URL of your LMS Django admin. Example: https://lms-internal.example.com/admin'),
     )
+    edx_oauth2_provider_url = models.CharField(max_length=255, null=True, blank=True,
+                                                   verbose_name=_('Open EDX Oauth2 Provider URL'))
+    edx_oauth2_key = models.CharField(max_length=255, null=True, blank=True,
+                                                   verbose_name=_('Open EDX Oauth2 Key'))
+    edx_oauth2_password = models.CharField(max_length=255, null=True, blank=True,
+                                                   verbose_name=_('Open EDX Oauth2 Password'))
     analytics_url = models.URLField(max_length=255, blank=True, verbose_name=_('Analytics API URL'), default='')
     analytics_token = models.CharField(max_length=255, blank=True, verbose_name=_('Analytics Access Token'), default='')
 
@@ -102,12 +108,10 @@ class Partner(TimeStampedModel):
 
     @cached_property
     def oauth_api_client(self):
-        # Does not need to be on the Partner model, but is here for historical reasons and this client is usually used
-        # along with URLs from this model. So might as well have it here for convenience.
         return OAuthAPIClient(
-            settings.BACKEND_SERVICE_EDX_OAUTH2_PROVIDER_URL,
-            settings.BACKEND_SERVICE_EDX_OAUTH2_KEY,
-            settings.BACKEND_SERVICE_EDX_OAUTH2_SECRET,
+            self.edx_oauth2_provider_url,
+            self.edx_oauth2_key,
+            self.edx_oauth2_password,
             timeout=settings.OAUTH_API_TIMEOUT,
         )
 
