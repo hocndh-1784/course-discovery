@@ -48,7 +48,10 @@ class PartnerAdmin(admin.ModelAdmin):
                        'lms_coursemode_api_url',
                        'ecommerce_api_url',
                        'organizations_api_url',
-                       'programs_api_url',)
+                       'programs_api_url',
+                       'edx_oauth2_provider_url',
+                       'edx_oauth2_key',
+                       'edx_oauth2_password',)
         }),
         (_('Marketing Site Configuration'), {
             'description': _('Configure the marketing site URLs that will be used to retrieve data and create URLs.'),

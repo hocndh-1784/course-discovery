@@ -60,6 +60,12 @@ class Partner(TimeStampedModel):
     organizations_api_url = models.URLField(max_length=255, null=True, blank=True,
                                             verbose_name=_('Organizations API URL'))
     programs_api_url = models.URLField(max_length=255, null=True, blank=True, verbose_name=_('Programs API URL'))
+    edx_oauth2_provider_url = models.CharField(max_length=255, null=True, blank=True,
+                                                   verbose_name=_('Open EDX Oauth2 Provider URL'))
+    edx_oauth2_key = models.CharField(max_length=255, null=True, blank=True,
+                                                   verbose_name=_('Open EDX Oauth2 Key'))
+    edx_oauth2_password = models.CharField(max_length=255, null=True, blank=True,
+                                                   verbose_name=_('Open EDX Oauth2 Password'))
     marketing_site_api_url = models.URLField(max_length=255, null=True, blank=True,
                                              verbose_name=_('Marketing Site API URL'))
     marketing_site_url_root = models.URLField(max_length=255, null=True, blank=True,
@@ -105,9 +111,9 @@ class Partner(TimeStampedModel):
         # Does not need to be on the Partner model, but is here for historical reasons and this client is usually used
         # along with URLs from this model. So might as well have it here for convenience.
         return OAuthAPIClient(
-            settings.BACKEND_SERVICE_EDX_OAUTH2_PROVIDER_URL,
-            settings.BACKEND_SERVICE_EDX_OAUTH2_KEY,
-            settings.BACKEND_SERVICE_EDX_OAUTH2_SECRET,
+            self.edx_oauth2_provider_url,
+            self.edx_oauth2_key,
+            self.edx_oauth2_password,
             timeout=settings.OAUTH_API_TIMEOUT,
         )
 
